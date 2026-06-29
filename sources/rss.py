@@ -1,3 +1,4 @@
+from typing import Optional
 from datetime import datetime, timedelta, timezone
 import feedparser
 
@@ -43,7 +44,7 @@ def get_rss_stories() -> list[dict]:
     return stories
 
 
-def _parse_date(entry) -> datetime | None:
+def _parse_date(entry) -> Optional[datetime]:
     """Try to parse the published date from an RSS entry."""
     for field in ("published_parsed", "updated_parsed"):
         parsed = entry.get(field)

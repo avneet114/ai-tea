@@ -1,11 +1,12 @@
 import re
+from typing import Optional
 import httpx
 from youtube_transcript_api import YouTubeTranscriptApi
 
 CHANNEL_URL = "https://www.youtube.com/@AIDailyBrief/videos"
 
 
-async def get_latest_transcript() -> dict | None:
+async def get_latest_transcript() -> Optional[dict]:
     """
     Fetch the latest AI Daily Brief video and return its transcript.
     Returns {"title": ..., "transcript": ..., "url": ..., "source": ...} or None.
@@ -29,7 +30,7 @@ async def get_latest_transcript() -> dict | None:
         return None
 
 
-async def _get_latest_video_id() -> dict | None:
+async def _get_latest_video_id() -> Optional[dict]:
     """Scrape the channel page for the most recent video."""
     async with httpx.AsyncClient(timeout=15) as client:
         resp = await client.get(CHANNEL_URL, headers={

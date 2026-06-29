@@ -49,6 +49,10 @@ async def run_digest():
     message = generate_digest(all_stories)
     print(f"[digest] Digest generated ({len(message)} chars), sending iMessage...")
 
+    # Save so Boba has context when you reply
+    from main import save_digest
+    save_digest(message)
+
     await send_imessage(MY_PHONE, message)
     print("[digest] Sent!")
 
