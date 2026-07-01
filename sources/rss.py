@@ -3,19 +3,13 @@ from datetime import datetime, timedelta, timezone
 import feedparser
 
 FEEDS = {
-    # Official lab blogs — primary sources
-    "OpenAI":          "https://openai.com/blog/rss.xml",
-    "Anthropic":       "https://www.anthropic.com/rss.xml",
-    "Google DeepMind": "https://blog.google/technology/ai/rss/",
-    "Meta AI":         "https://ai.meta.com/blog/rss/",
-    "Hugging Face":    "https://huggingface.co/blog/feed.xml",
-    # X/Twitter-aware newsletters — catch what's viral before press does
+    # X/Twitter recaps — catches viral AI news before press does
+    "smol.ai":         "https://news.smol.ai/rss.xml",
     "Ben's Bites":     "https://www.bensbites.com/feed",
     "TLDR AI":         "https://tldr.tech/ai/rss",
     "The Rundown AI":  "https://www.therundown.ai/feed",
-    # Tech press
-    "Ars Technica":    "https://feeds.arstechnica.com/arstechnica/technology-lab",
-    "VentureBeat AI":  "https://venturebeat.com/category/ai/feed/",
+    # Anthropic only official source
+    "Anthropic":       "https://www.anthropic.com/rss.xml",
 }
 
 HOURS_LOOKBACK = 48  # wide enough to catch daily newsletters that publish late
@@ -66,4 +60,4 @@ def _clean_summary(raw: str) -> str:
     """Strip HTML tags from summary."""
     from bs4 import BeautifulSoup
     text = BeautifulSoup(raw, "html.parser").get_text(strip=True)
-    return text[:300] if text else ""
+    return text[:800] if text else ""

@@ -1,8 +1,6 @@
 import os
-import asyncio
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from sources.youtube import get_latest_transcript
-from sources.smolai import get_smolai_stories
 from sources.rss import get_rss_stories
 from digest import generate_digest
 from messenger import send_imessage
@@ -16,21 +14,12 @@ async def run_digest():
     """Fetch all sources, generate digest, send via iMessage."""
     print("[digest] Fetching sources...")
 
-    # Gather all stories from all sources
     all_stories = []
 
-    # RSS feeds (sync)
+    # RSS feeds — includes smol.ai, newsletters, Anthropic
     rss_stories = get_rss_stories()
     all_stories.extend(rss_stories)
     print(f"[digest] RSS: {len(rss_stories)} stories")
-
-    # smol.ai (async)
-    try:
-        smol_stories = await get_smolai_stories()
-        all_stories.extend(smol_stories)
-        print(f"[digest] smol.ai: {len(smol_stories)} stories")
-    except Exception as e:
-        print(f"[digest] smol.ai error: {e}")
 
     # YouTube transcript (async)
     try:
