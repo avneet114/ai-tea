@@ -2,6 +2,7 @@ import os
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from sources.youtube import get_latest_transcript
 from sources.rss import get_rss_stories
+from sources.tldr import get_tldr_stories
 from digest import generate_digest
 from messenger import send_imessage
 
@@ -16,19 +17,37 @@ async def run_digest():
 
     all_stories = []
 
-    # RSS feeds — includes smol.ai, newsletters, Anthropic
-    rss_stories = get_rss_stories()
-    all_stories.extend(rss_stories)
-    print(f"[digest] RSS: {len(rss_stories)} stories")
-
-    # YouTube transcript (async)
+    # TLDR AI is primary — scrape today's newsletter first
     try:
-        yt = await get_latest_transcript()
-        if yt:
-            all_stories.append(yt)
-            print(f"[digest] YouTube: got transcript for '{yt['title']}'")
+        tldr_stories = await get_tldr_stories()
+        print(f"[digest] TLDR AI: {len(tldr_stories)} stories")
+        all_stories.extend(tldr_stories)
     except Exception as e:
-        print(f"[digest] YouTube error: {e}")
+        print(f"[digest] TLDR error: {e}")
+
+    # If TLDR had nothing (weekend / scrape failed), fall back to RSS + YouTube
+    if not all_stories:
+        print("[digest] TLDR empty — falling back to RSS + YouTube")
+        rss_stories = get_rss_stories()
+        all_stories.extend(rss_stories)
+        print(f"[digest] RSS fallback: {len(rss_stories)} stories")
+
+        try:
+            yt = await get_latest_transcript()
+            if yt:
+                all_stories.append(yt)
+                print(f"[digest] YouTube: got transcript for '{yt['title']}'")
+        except Exception as e:
+            print(f"[digest] YouTube error: {e}")
+    else:
+        # Still grab YouTube even on TLDR days — good for extra context
+        try:
+            yt = await get_latest_transcript()
+            if yt:
+                all_stories.append(yt)
+                print(f"[digest] YouTube: got transcript for '{yt['title']}'")
+        except Exception as e:
+            print(f"[digest] YouTube error: {e}")
 
     if not all_stories:
         print("[digest] No stories found, skipping.")
