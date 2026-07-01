@@ -3,14 +3,14 @@ from datetime import datetime, timedelta, timezone
 import feedparser
 
 FEEDS = {
-    "OpenAI":        "https://openai.com/blog/rss.xml",
-    "Anthropic":     "https://www.anthropic.com/rss.xml",
+    "OpenAI":          "https://openai.com/blog/rss.xml",
+    "Anthropic":       "https://www.anthropic.com/rss.xml",
     "Google DeepMind": "https://blog.google/technology/ai/rss/",
-    "Meta AI":       "https://ai.meta.com/blog/rss/",
-    "Hugging Face":  "https://huggingface.co/blog/feed.xml",
-    "TechCrunch AI": "https://techcrunch.com/category/artificial-intelligence/feed/",
-    "The Verge AI":  "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",
-    "Ars Technica":  "https://feeds.arstechnica.com/arstechnica/technology-lab",
+    "Meta AI":         "https://ai.meta.com/blog/rss/",
+    "Hugging Face":    "https://huggingface.co/blog/feed.xml",
+    "Ars Technica":    "https://feeds.arstechnica.com/arstechnica/technology-lab",
+    "VentureBeat AI":  "https://venturebeat.com/category/ai/feed/",
+    "Wired AI":        "https://www.wired.com/feed/category/artificial-intelligence/latest/rss",
 }
 
 HOURS_LOOKBACK = 36  # slightly wider than 24h to handle timezone edge cases
