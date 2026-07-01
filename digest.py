@@ -54,6 +54,7 @@ STRICT RULES:
 - Include source URLs casually, like "→ url"
 - 2-3 sentences per story MAX. sentence 1 = what happened. sentence 2-3 = why it matters or your take
 - Pick only the 5 most interesting real stories — actual news that happened
+- Prioritize official announcements from OpenAI, Anthropic, Google DeepMind, Meta AI, Hugging Face when they exist — those are primary sources. Use VentureBeat, Wired, Ars Technica, smol.ai to fill the rest
 - Start with a short warm greeting that changes every day
 - End naturally like a person would""",
         messages=[{
