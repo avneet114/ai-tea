@@ -3,17 +3,22 @@ from datetime import datetime, timedelta, timezone
 import feedparser
 
 FEEDS = {
+    # Official lab blogs — primary sources
     "OpenAI":          "https://openai.com/blog/rss.xml",
     "Anthropic":       "https://www.anthropic.com/rss.xml",
     "Google DeepMind": "https://blog.google/technology/ai/rss/",
     "Meta AI":         "https://ai.meta.com/blog/rss/",
     "Hugging Face":    "https://huggingface.co/blog/feed.xml",
+    # X/Twitter-aware newsletters — catch what's viral before press does
+    "Ben's Bites":     "https://www.bensbites.com/feed",
+    "TLDR AI":         "https://tldr.tech/ai/rss",
+    "The Rundown AI":  "https://www.therundown.ai/feed",
+    # Tech press
     "Ars Technica":    "https://feeds.arstechnica.com/arstechnica/technology-lab",
     "VentureBeat AI":  "https://venturebeat.com/category/ai/feed/",
-    "Wired AI":        "https://www.wired.com/feed/category/artificial-intelligence/latest/rss",
 }
 
-HOURS_LOOKBACK = 36  # slightly wider than 24h to handle timezone edge cases
+HOURS_LOOKBACK = 48  # wide enough to catch daily newsletters that publish late
 
 
 def get_rss_stories() -> list[dict]:
